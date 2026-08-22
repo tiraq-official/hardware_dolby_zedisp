@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.lunaris.dolby.R
 import org.lunaris.dolby.service.DolbyNotificationListener
+import org.lunaris.dolby.ui.theme.LunarisShapes
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -56,7 +57,7 @@ fun NotificationListenerPermissionCard(
                 ) {
                     Surface(
                         modifier = Modifier.size(40.dp),
-                        shape = MaterialTheme.shapes.medium,
+                        shape = LunarisShapes.settingsIcon,
                         color = MaterialTheme.colorScheme.error
                     ) {
                         Box(contentAlignment = Alignment.Center) {

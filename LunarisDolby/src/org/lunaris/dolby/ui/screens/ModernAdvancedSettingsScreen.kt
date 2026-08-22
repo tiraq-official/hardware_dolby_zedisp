@@ -41,14 +41,12 @@ fun ModernAdvancedSettingsScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { 
+            MediumFlexibleTopAppBar(
+                title = {
                     Text(
                         stringResource(R.string.dolby_category_adv_settings),
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    ) 
+                        fontWeight = FontWeight.ExtraBold
+                    )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent
@@ -66,7 +64,7 @@ fun ModernAdvancedSettingsScreen(
                         .padding(paddingValues),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                    LoadingIndicator(color = MaterialTheme.colorScheme.primary)
                 }
             }
             is DolbyUiState.Success -> {

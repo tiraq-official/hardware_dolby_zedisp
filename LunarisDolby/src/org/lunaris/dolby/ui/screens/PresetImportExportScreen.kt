@@ -154,14 +154,12 @@ fun PresetImportExportScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { 
+            MediumFlexibleTopAppBar(
+                title = {
                     Text(
                         stringResource(R.string.import_export_presets),
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    ) 
+                        fontWeight = FontWeight.ExtraBold
+                    )
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {

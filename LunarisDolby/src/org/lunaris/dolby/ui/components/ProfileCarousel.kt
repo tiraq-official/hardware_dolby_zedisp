@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import kotlinx.coroutines.launch
 import org.lunaris.dolby.R
+import org.lunaris.dolby.ui.theme.LunarisShapes
 import org.lunaris.dolby.utils.*
 import kotlin.math.absoluteValue
 
@@ -229,7 +230,7 @@ private fun ProfileCard(
                     modifier = Modifier
                         .size(56.dp)
                         .scale(iconScale),
-                    shape = CircleShape,
+                    shape = LunarisShapes.avatar,
                     color = Color.White.copy(alpha = 0.3f)
                 ) {
                     Box(contentAlignment = Alignment.Center) {

@@ -46,14 +46,12 @@ fun AppProfileScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { 
+            MediumFlexibleTopAppBar(
+                title = {
                     Text(
                         stringResource(R.string.app_profiles_title),
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    ) 
+                        fontWeight = FontWeight.ExtraBold
+                    )
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
@@ -104,7 +102,7 @@ fun AppProfileScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                        LoadingIndicator(color = MaterialTheme.colorScheme.primary)
                         Text(
                             text = stringResource(R.string.app_profiles_loading),
                             style = MaterialTheme.typography.bodyMedium,

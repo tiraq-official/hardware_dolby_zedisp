@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.lunaris.dolby.R
 import org.lunaris.dolby.domain.models.ProfileSettings
+import org.lunaris.dolby.ui.theme.LunarisShapes
 import org.lunaris.dolby.ui.viewmodel.DolbyViewModel
 import org.lunaris.dolby.utils.*
 
@@ -100,22 +101,31 @@ fun DolbyMainCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column {
+            val heroColors = if (enabled) {
+                listOf(
+                    MaterialTheme.colorScheme.primary,
+                    MaterialTheme.colorScheme.tertiary
+                )
+            } else {
+                listOf(
+                    MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+                    MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.5f)
+                )
+            }
+            val heroContentColor = if (enabled)
+                MaterialTheme.colorScheme.onPrimary
+            else
+                MaterialTheme.colorScheme.onPrimaryContainer
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(120.dp)
-                    .background(
-                        brush = Brush.linearGradient(
-                            colors = listOf(
-                                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f),
-                                MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.6f)
-                            )
-                        )
-                    ),
+                    .height(132.dp)
+                    .background(brush = Brush.linearGradient(colors = heroColors)),
                 contentAlignment = Alignment.Center
             ) {
                 AnimatedEqualizerHeader(
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    color = heroContentColor,
                     width = 140.dp,
                     height = 64.dp,
                     barCount = 11
@@ -130,20 +140,46 @@ fun DolbyMainCard(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = stringResource(R.string.dolby_enable),
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = if (enabled) stringResource(R.string.dolby_on) 
-                                  else stringResource(R.string.dolby_off),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                    Row(
+                        modifier = Modifier.weight(1f),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Surface(
+                            modifier = Modifier.size(44.dp),
+                            shape = LunarisShapes.heroIcon,
+                            color = if (enabled)
+                                MaterialTheme.colorScheme.primary
+                            else
+                                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Icon(
+                                    imageVector = if (enabled) Icons.Rounded.Check else Icons.Rounded.Close,
+                                    contentDescription = null,
+                                    tint = if (enabled)
+                                        MaterialTheme.colorScheme.onPrimary
+                                    else
+                                        MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.size(22.dp)
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.width(14.dp))
+                        Column {
+                            Text(
+                                text = stringResource(R.string.dolby_enable),
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = if (enabled) stringResource(R.string.dolby_on) 
+                                      else stringResource(R.string.dolby_off),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                     }
                     Switch(
                         checked = enabled,
@@ -216,15 +252,15 @@ fun ModernSettingsCard(
             ) {
                 Surface(
                     modifier = Modifier.size(40.dp),
-                    shape = MaterialTheme.shapes.medium,
-                    color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f)
+                    shape = LunarisShapes.settingsIcon,
+                    color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f)
                 ) {
                     Box(contentAlignment = Alignment.Center) {
                         Icon(
                             imageVector = icon,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(22.dp)
                         )
                     }
                 }
@@ -620,10 +656,7 @@ private fun IeqTile(
         ) {
             Surface(
                 modifier = Modifier.size(40.dp),
-                shape = if (isSelected)
-                    MaterialTheme.shapes.extraLarge
-                else
-                    MaterialTheme.shapes.medium,
+                shape = LunarisShapes.settingsIcon,
                 color = if (isSelected)
                     MaterialTheme.colorScheme.primary
                 else

@@ -27,6 +27,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -41,6 +43,7 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.lunaris.dolby.R
 import org.lunaris.dolby.ui.components.*
+import org.lunaris.dolby.ui.theme.LunarisShapes
 import org.lunaris.dolby.ui.viewmodel.EqualizerViewModel
 import org.lunaris.dolby.domain.models.*
 import org.lunaris.dolby.utils.*
@@ -68,14 +71,19 @@ fun ModernEqualizerScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { 
+            MediumFlexibleTopAppBar(
+                title = {
                     Text(
                         stringResource(R.string.dolby_preset),
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    ) 
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                },
+                subtitle = {
+                    val presetName = (uiState as? EqualizerUiState.Success)?.currentPreset?.name
+                    Text(
+                        text = presetName ?: stringResource(R.string.dolby_geq_preset_name),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 },
                 actions = {
                     IconButton(onClick = { showSaveDialog = true }) {
@@ -128,7 +136,7 @@ fun ModernEqualizerScreen(
                         .padding(paddingValues),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                    LoadingIndicator(color = MaterialTheme.colorScheme.primary)
                 }
             }
             is EqualizerUiState.Success -> {
@@ -668,10 +676,7 @@ private fun ViewModeTile(
         ) {
             Surface(
                 modifier = Modifier.size(40.dp),
-                shape = if (isSelected)
-                    MaterialTheme.shapes.extraLarge
-                else
-                    MaterialTheme.shapes.medium,
+                shape = LunarisShapes.settingsIcon,
                 color = if (isSelected)
                     MaterialTheme.colorScheme.primary
                 else
@@ -811,10 +816,7 @@ private fun BandModeTile(
         ) {
             Surface(
                 modifier = Modifier.size(32.dp),
-                shape = if (isSelected)
-                    MaterialTheme.shapes.extraLarge
-                else
-                    MaterialTheme.shapes.small,
+                shape = LunarisShapes.selectedChip,
                 color = if (isSelected)
                     MaterialTheme.colorScheme.primary
                 else
@@ -989,7 +991,7 @@ fun ModernEqualizerBand(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Surface(
-            shape = MaterialTheme.shapes.small,
+            shape = LunarisShapes.selectedChip,
             color = if (enabled) MaterialTheme.colorScheme.primaryContainer
                    else MaterialTheme.colorScheme.surfaceVariant
         ) {
@@ -1069,6 +1071,7 @@ private fun FrequencyResponseCurve(
     modifier: Modifier = Modifier
 ) {
     val primaryColor = MaterialTheme.colorScheme.primary
+    val tertiaryColor = MaterialTheme.colorScheme.tertiary
     val surfaceColor = MaterialTheme.colorScheme.surfaceVariant
     
     Canvas(modifier = modifier.background(surfaceColor.copy(alpha = 0.3f))) {
@@ -1119,10 +1122,31 @@ private fun FrequencyResponseCurve(
                 }
             }
             
+            // Soft glow pass beneath the main stroke for a more expressive feel
             drawPath(
                 path = path,
-                color = primaryColor,
-                style = Stroke(width = 4f)
+                brush = Brush.horizontalGradient(
+                    colors = listOf(primaryColor, tertiaryColor)
+                ),
+                style = Stroke(
+                    width = 14f,
+                    cap = StrokeCap.Round,
+                    join = StrokeJoin.Round
+                ),
+                alpha = 0.25f
+            )
+            
+            // Main curve stroke, thicker and gradient-toned
+            drawPath(
+                path = path,
+                brush = Brush.horizontalGradient(
+                    colors = listOf(primaryColor, tertiaryColor)
+                ),
+                style = Stroke(
+                    width = 6f,
+                    cap = StrokeCap.Round,
+                    join = StrokeJoin.Round
+                )
             )
             
             val fillPath = Path().apply {
@@ -1137,10 +1161,29 @@ private fun FrequencyResponseCurve(
                 brush = Brush.verticalGradient(
                     colors = listOf(
                         primaryColor.copy(alpha = 0.3f),
-                        primaryColor.copy(alpha = 0.05f)
+                        tertiaryColor.copy(alpha = 0.05f)
                     )
                 )
             )
+            
+            // Emphasize each band point with a small node marker
+            bandGains.forEachIndexed { index, bandGain ->
+                val x = index * stepX
+                val normalizedGain = (bandGain.gain / 150f).coerceIn(-1f, 1f)
+                val y = centerY - (normalizedGain * centerY * 0.8f)
+                
+                drawCircle(
+                    color = tertiaryColor,
+                    radius = 8f,
+                    center = Offset(x, y),
+                    alpha = 0.35f
+                )
+                drawCircle(
+                    color = primaryColor,
+                    radius = 4f,
+                    center = Offset(x, y)
+                )
+            }
         }
     }
 }

@@ -43,14 +43,20 @@ fun ModernDolbySettingsScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { 
+            MediumFlexibleTopAppBar(
+                title = {
                     Text(
                         stringResource(R.string.dolby_title),
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    ) 
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                },
+                subtitle = {
+                    val isEnabled = (uiState as? DolbyUiState.Success)?.settings?.enabled == true
+                    Text(
+                        text = if (isEnabled) stringResource(R.string.dolby_on)
+                               else stringResource(R.string.dolby_off),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 },
                 actions = {
                     IconButton(onClick = { showCreditsDialog = true }) {
@@ -89,7 +95,7 @@ fun ModernDolbySettingsScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                        LoadingIndicator(color = MaterialTheme.colorScheme.primary)
                         Text(
                             text = stringResource(R.string.loading),
                             style = MaterialTheme.typography.bodyMedium,

@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import org.lunaris.dolby.ui.theme.LunarisShapes
 
 data class Contributor(
     val name: String,
@@ -46,6 +47,12 @@ fun CreditsDialog(
     val repoUrl = "https://github.com/Pong-Development/hardware_dolby"
     
     val mainContributors = listOf(
+        Contributor(
+            name = "ZedissP",
+            githubUsername = "zedisspp",
+            contribution = "MD3 Expressive UI Redesign (NyxROM)",
+            isHighlighted = true
+        ),
         Contributor(
             name = "Ghost",
             githubUsername = "Ghosuto",
@@ -100,17 +107,25 @@ fun CreditsDialog(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Favorite,
-                            contentDescription = null,
-                            modifier = Modifier.size(48.dp),
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
+                        Surface(
+                            modifier = Modifier.size(64.dp),
+                            shape = LunarisShapes.heroIcon,
+                            color = MaterialTheme.colorScheme.primary
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Icon(
+                                    imageVector = Icons.Default.Favorite,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(32.dp),
+                                    tint = MaterialTheme.colorScheme.onPrimary
+                                )
+                            }
+                        }
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(
                             text = "Credits & Contributors",
                             style = MaterialTheme.typography.headlineMedium,
-                            fontWeight = FontWeight.Bold,
+                            fontWeight = FontWeight.ExtraBold,
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }
@@ -173,7 +188,7 @@ fun CreditsDialog(
                             ) {
                                 Surface(
                                     modifier = Modifier.size(40.dp),
-                                    shape = MaterialTheme.shapes.medium,
+                                    shape = LunarisShapes.settingsIcon,
                                     color = MaterialTheme.colorScheme.primary
                                 ) {
                                     Box(contentAlignment = Alignment.Center) {
@@ -322,7 +337,7 @@ private fun ContributorCard(
         ) {
             Surface(
                 modifier = Modifier.size(48.dp),
-                shape = MaterialTheme.shapes.medium,
+                shape = LunarisShapes.avatar,
                 color = if (contributor.isHighlighted)
                     MaterialTheme.colorScheme.tertiary
                 else
