@@ -262,7 +262,7 @@ fun InteractiveFrequencyResponseCurve(
                     }
                     
                     drawCircle(
-                        color = Color.White,
+                        color = onSurfaceColor,
                         radius = pointRadius,
                         center = Offset(x, y)
                     )

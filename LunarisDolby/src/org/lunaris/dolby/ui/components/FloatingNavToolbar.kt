@@ -62,8 +62,8 @@ fun FloatingNavToolbar(
                 .shadow(
                     elevation = 16.dp,
                     shape = MaterialTheme.shapes.extraLarge,
-                    ambientColor = Color.Black.copy(alpha = 0.4f),
-                    spotColor = Color.Black.copy(alpha = 0.5f)
+                    ambientColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.4f),
+                    spotColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f)
                 )
         ) {
             NavToolbarItem(
