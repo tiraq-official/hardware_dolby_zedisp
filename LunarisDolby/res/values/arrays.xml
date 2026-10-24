@@ -7,13 +7,15 @@
 
     <!-- Dolby Atmos -->
     <string-array name="dolby_profile_entries">
-        <item>@string/dolby_profile_dynamic</item>
-        <item>@string/dolby_profile_video</item>
-        <item>@string/dolby_profile_music</item>
-        <item>@string/dolby_profile_game</item>
-        <item>@string/dolby_profile_work</item>
-        <item>@string/dolby_profile_casual</item>
-        <item>@string/dolby_profile_mood</item>
+        <!-- indices below map to Motorola dax-default.xml profiles -->
+        <item>@string/dolby_profile_dynamic</item>   <!-- 0 Dynamic -->
+        <item>@string/dolby_profile_video</item>     <!-- 1 Movie -->
+        <item>@string/dolby_profile_music</item>     <!-- 2 Music -->
+        <item>@string/dolby_profile_custom</item>    <!-- 3 Custom -->
+        <item>@string/dolby_profile_spatial</item>   <!-- 4 SpatialAudio -->
+        <item>@string/dolby_profile_mobility</item>  <!-- 5 Mobility_on_the_go -->
+        <item>@string/dolby_profile_game</item>      <!-- 8 Game -->
+        <item>@string/dolby_profile_voice</item>     <!-- 9 Voice -->
     </string-array>
 
     <string-array name="dolby_profile_values">
@@ -23,7 +25,8 @@
         <item>3</item>
         <item>4</item>
         <item>5</item>
-        <item>6</item>
+        <item>8</item>
+        <item>9</item>
     </string-array>
 
     <string-array name="dolby_preset_entries" translatable="false">

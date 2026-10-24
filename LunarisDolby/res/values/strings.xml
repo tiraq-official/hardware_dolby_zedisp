@@ -56,6 +56,11 @@
     <string name="dolby_profile_work">Work</string>
     <string name="dolby_profile_casual">Casual</string>
     <string name="dolby_profile_mood">Mood</string>
+    <!-- added for Motorola profile set -->
+    <string name="dolby_profile_spatial">Spatial Audio</string>
+    <string name="dolby_profile_custom">Custom</string>
+    <string name="dolby_profile_mobility">Mobility</string>
+    <string name="dolby_profile_voice">Voice</string>
 
     <!-- Dolby equalizer presets -->
     <string name="dolby_preset_default">Flat (off)</string>
