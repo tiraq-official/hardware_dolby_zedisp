@@ -11,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 soong_namespace {
 }
 
@@ -24,11 +23,11 @@ cc_prebuilt_library_shared {
 	target: {
 		android_arm: {
 			srcs: ["proprietary/vendor/lib/libdapparamstorage.so"],
-			shared_libs: ["libcutils", "libutils", "liblog", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libc", "libc++", "libcutils", "libdl", "liblog", "libm", "libutils", ],
 		},
 		android_arm64: {
 			srcs: ["proprietary/vendor/lib64/libdapparamstorage.so"],
-			shared_libs: ["libcutils", "libutils", "liblog", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libc", "libc++", "libcutils", "libdl", "liblog", "libm", "libutils", ],
 		},
 	},
 	compile_multilib: "both",
@@ -45,11 +44,11 @@ cc_prebuilt_library_shared {
 	target: {
 		android_arm: {
 			srcs: ["proprietary/vendor/lib/libdlbpreg.so"],
-			shared_libs: ["liblog", "libutils", "libcutils", "libaudioutils", "libstagefright_foundation-v33", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libaudioutils", "libc", "libc++", "libcutils", "libdl", "liblog", "libm", "libstagefright_foundation-v33", "libutils", ],
 		},
 		android_arm64: {
 			srcs: ["proprietary/vendor/lib64/libdlbpreg.so"],
-			shared_libs: ["liblog", "libutils", "libcutils", "libaudioutils", "libstagefright_foundation-v33", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libaudioutils", "libc", "libc++", "libcutils", "libdl", "liblog", "libm", "libstagefright_foundation-v33", "libutils", ],
 		},
 	},
 	compile_multilib: "both",
@@ -66,11 +65,11 @@ cc_prebuilt_library_shared {
 	target: {
 		android_arm: {
 			srcs: ["proprietary/vendor/lib/vendor.dolby.hardware.dms@2.0.so"],
-			shared_libs: ["libhidlbase", "liblog", "libutils", "libcutils", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libc", "libc++", "libcutils", "libdl", "libhidlbase", "liblog", "libm", "libutils", ],
 		},
 		android_arm64: {
 			srcs: ["proprietary/vendor/lib64/vendor.dolby.hardware.dms@2.0.so"],
-			shared_libs: ["libhidlbase", "liblog", "libutils", "libcutils", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libc", "libc++", "libcutils", "libdl", "libhidlbase", "liblog", "libm", "libutils", ],
 		},
 	},
 	compile_multilib: "both",
@@ -87,7 +86,7 @@ cc_prebuilt_library_shared {
 	target: {
 		android_arm64: {
 			srcs: ["proprietary/vendor/lib64/libdlbdsservice.so"],
-			shared_libs: ["libutils", "libstagefright_foundation-v33", "liblog", "libxml2", "libcrypto", "libdapparamstorage", "libsqlite", "libhidlbase", "vendor.dolby.hardware.dms@2.0", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libc", "libc++", "libcrypto", "libcutils", "libdapparamstorage", "libdl", "liblog", "libm", "libsqlite", "libstagefright_foundation-v33", "libutils", "libxml2", ],
 		},
 	},
 	compile_multilib: "64",
@@ -104,11 +103,11 @@ cc_prebuilt_library_shared {
 	target: {
 		android_arm: {
 			srcs: ["proprietary/vendor/lib/liboem_specific.so"],
-			shared_libs: ["libutils", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libc", "libc++", "libdl", "libm", "libutils", ],
 		},
 		android_arm64: {
 			srcs: ["proprietary/vendor/lib64/liboem_specific.so"],
-			shared_libs: ["libutils", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libc", "libc++", "libdl", "libm", "libutils", ],
 		},
 	},
 	compile_multilib: "both",
@@ -122,7 +121,7 @@ cc_prebuilt_binary {
 	target: {
 		android_arm64: {
 			srcs: ["proprietary/vendor/bin/hw/vendor.dolby.hardware.dms@2.1-service"],
-			shared_libs: ["liblog", "libutils", "libhidlbase", "libdapparamstorage", "libdlbdsservice", "vendor.dolby.hardware.dms@2.1", "vendor.dolby.hardware.dms@2.0", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libc", "libc++", "libdapparamstorage", "libdl", "libdlbdsservice", "libhidlbase", "liblog", "libm", "libutils", "vendor.dolby.hardware.dms@2.0", "vendor.dolby.hardware.dms@2.1", ],
 		},
 	},
 	compile_multilib: "64",
@@ -143,7 +142,7 @@ cc_prebuilt_library_shared {
 	target: {
 		android_arm64: {
 			srcs: ["proprietary/vendor/lib64/libcodec2_soft_ac4dec.so"],
-			shared_libs: ["libdeccfg", "libstagefright_foundation-v33", "libcutils", "libdmshal", "libbase", "liblog", "libcodec2", "libcodec2_vndk", "libutils", "libcodec2_soft_common", "libcodec2_store_dolby", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libbase", "libc", "libc++", "libcodec2", "libcodec2_soft_common", "libcodec2_store_dolby", "libcodec2_vndk", "libcutils", "libdeccfg", "libdl", "libdmshal", "liblog", "libm", "libstagefright_foundation-v33", "libutils", ],
 		},
 	},
 	compile_multilib: "64",
@@ -160,7 +159,7 @@ cc_prebuilt_library_shared {
 	target: {
 		android_arm64: {
 			srcs: ["proprietary/vendor/lib64/libcodec2_soft_ddpdec.so"],
-			shared_libs: ["libdeccfg", "libstagefright_foundation-v33", "libcutils", "libdmshal", "libbase", "liblog", "libcodec2", "libcodec2_vndk", "libutils", "libcodec2_soft_common", "libcodec2_store_dolby", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libbase", "libc", "libc++", "libcodec2", "libcodec2_soft_common", "libcodec2_store_dolby", "libcodec2_vndk", "libcutils", "libdeccfg", "libdl", "libdmshal", "liblog", "libm", "libstagefright_foundation-v33", "libutils", ],
 		},
 	},
 	compile_multilib: "64",
@@ -177,7 +176,7 @@ cc_prebuilt_library_shared {
 	target: {
 		android_arm64: {
 			srcs: ["proprietary/vendor/lib64/libcodec2_store_dolby.so"],
-			shared_libs: ["libbase", "liblog", "libcodec2", "libcodec2_vndk", "libutils", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libbase", "libc", "libc++", "libcodec2", "libcodec2_vndk", "libdl", "liblog", "libm", "libutils", ],
 		},
 	},
 	compile_multilib: "64",
@@ -194,7 +193,7 @@ cc_prebuilt_library_shared {
 	target: {
 		android_arm64: {
 			srcs: ["proprietary/vendor/lib64/libdeccfg.so"],
-			shared_libs: ["libdapparamstorage", "libcutils", "libutils", "liblog", "libdmshal", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libc", "libc++", "libcutils", "libdapparamstorage", "libdl", "libdmshal", "liblog", "libm", "libutils", ],
 		},
 	},
 	compile_multilib: "64",
@@ -208,7 +207,7 @@ cc_prebuilt_binary {
 	target: {
 		android_arm64: {
 			srcs: ["proprietary/vendor/bin/hw/vendor.dolby.media.c2@1.0-service"],
-			shared_libs: ["libbase", "liblog", "libcodec2", "libutils", "android.hardware.media.c2@1.0", "android.hardware.media.c2@1.1", "android.hardware.media.c2@1.2", "libcodec2_hidl@1.0", "libcodec2_hidl@1.1", "libcodec2_hidl@1.2", "libcodec2_vndk", "libhidlbase", "libavservices_minijail", "libbinder", "libcodec2_store_dolby", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["android.hardware.media.c2@1.0", "android.hardware.media.c2@1.1", "libavservices_minijail", "libbase", "libbinder", "libc", "libc++", "libcodec2", "libcodec2_hidl@1.0", "libcodec2_hidl@1.1", "libcodec2_store_dolby", "libcodec2_vndk", "libdl", "libhidlbase", "liblog", "libm", "libutils", ],
 		},
 	},
 	compile_multilib: "64",
@@ -229,11 +228,11 @@ cc_prebuilt_library_shared {
 	target: {
 		android_arm: {
 			srcs: ["proprietary/vendor/lib/soundfx/libdlbvol.so"],
-			shared_libs: ["liblog", "libutils", "libcutils", "libaudioutils", "libstagefright_foundation-v33", "libdlbpreg", "vendor.dolby.hardware.dms@2.0", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libaudioutils", "libc", "libc++", "libcutils", "libdl", "libdlbpreg", "liblog", "libm", "libstagefright_foundation-v33", "libutils", ],
 		},
 		android_arm64: {
 			srcs: ["proprietary/vendor/lib64/soundfx/libdlbvol.so"],
-			shared_libs: ["liblog", "libutils", "libcutils", "libaudioutils", "libstagefright_foundation-v33", "libdlbpreg", "vendor.dolby.hardware.dms@2.0", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libaudioutils", "libc", "libc++", "libcutils", "libdl", "libdlbpreg", "liblog", "libm", "libstagefright_foundation-v33", "libutils", ],
 		},
 	},
 	compile_multilib: "both",
@@ -251,11 +250,11 @@ cc_prebuilt_library_shared {
 	target: {
 		android_arm: {
 			srcs: ["proprietary/vendor/lib/soundfx/libswdap.so"],
-			shared_libs: ["liblog", "libutils", "libcutils", "libaudioutils", "libdapparamstorage", "libhidlbase", "libstagefright_foundation-v33", "libdlbpreg", "libdmshal", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libaudioutils", "libc", "libc++", "libcutils", "libdapparamstorage", "libdl", "libdlbpreg", "libdmshal", "liblog", "libm", "libstagefright_foundation-v33", "libutils", ],
 		},
 		android_arm64: {
 			srcs: ["proprietary/vendor/lib64/soundfx/libswdap.so"],
-			shared_libs: ["liblog", "libutils", "libcutils", "libaudioutils", "libdapparamstorage", "libhidlbase", "libstagefright_foundation-v33", "libdlbpreg", "libdmshal", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libaudioutils", "libc", "libc++", "libcutils", "libdapparamstorage", "libdl", "libdlbpreg", "libdmshal", "liblog", "libm", "libstagefright_foundation-v33", "libutils", ],
 		},
 	},
 	compile_multilib: "both",
@@ -273,11 +272,11 @@ cc_prebuilt_library_shared {
 	target: {
 		android_arm: {
 			srcs: ["proprietary/vendor/lib/soundfx/libswgamedap.so"],
-			shared_libs: ["liblog", "libutils", "libcutils", "libaudioutils", "libdapparamstorage", "libhidlbase", "libdlbpreg", "libdmshal", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libaudioutils", "libc", "libc++", "libcutils", "libdapparamstorage", "libdl", "libdlbpreg", "libdmshal", "liblog", "libm", "libstagefright_foundation-v33", "libutils", ],
 		},
 		android_arm64: {
 			srcs: ["proprietary/vendor/lib64/soundfx/libswgamedap.so"],
-			shared_libs: ["liblog", "libutils", "libcutils", "libaudioutils", "libdapparamstorage", "libhidlbase", "libdlbpreg", "libdmshal", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libaudioutils", "libc", "libc++", "libcutils", "libdapparamstorage", "libdl", "libdlbpreg", "libdmshal", "liblog", "libm", "libstagefright_foundation-v33", "libutils", ],
 		},
 	},
 	compile_multilib: "both",
@@ -294,11 +293,11 @@ cc_prebuilt_library_shared {
 	target: {
 		android_arm: {
 			srcs: ["proprietary/vendor/lib/libdmshal.so"],
-			shared_libs: ["libbinder", "libbinder_ndk", "libcutils", "libutils", "liblog", "libdapparamstorage", "libhidlbase", "vendor.dolby.hardware.dms@2.1", "vendor.dolby.hardware.dms@2.0", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libbinder", "libbinder_ndk", "libc", "libc++", "libcutils", "libdapparamstorage", "libdl", "libhidlbase", "liblog", "libm", "libutils", "vendor.dolby.hardware.dms@2.0", "vendor.dolby.hardware.dms@2.1", ],
 		},
 		android_arm64: {
 			srcs: ["proprietary/vendor/lib64/libdmshal.so"],
-			shared_libs: ["libbinder", "libbinder_ndk", "libcutils", "libutils", "liblog", "libdapparamstorage", "libhidlbase", "vendor.dolby.hardware.dms@2.1", "vendor.dolby.hardware.dms@2.0", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libbinder", "libbinder_ndk", "libc", "libc++", "libcutils", "libdapparamstorage", "libdl", "libhidlbase", "liblog", "libm", "libutils", "vendor.dolby.hardware.dms@2.0", "vendor.dolby.hardware.dms@2.1", ],
 		},
 	},
 	compile_multilib: "both",
@@ -315,11 +314,11 @@ cc_prebuilt_library_shared {
 	target: {
 		android_arm: {
 			srcs: ["proprietary/vendor/lib/vendor.dolby.hardware.dms@2.1.so"],
-			shared_libs: ["vendor.dolby.hardware.dms@2.0", "libhidlbase", "liblog", "libutils", "libcutils", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libc", "libc++", "libcutils", "libdl", "libhidlbase", "liblog", "libm", "libutils", "vendor.dolby.hardware.dms@2.0", ],
 		},
 		android_arm64: {
 			srcs: ["proprietary/vendor/lib64/vendor.dolby.hardware.dms@2.1.so"],
-			shared_libs: ["vendor.dolby.hardware.dms@2.0", "libhidlbase", "liblog", "libutils", "libcutils", "libc++", "libc", "libm", "libdl", ],
+			shared_libs: ["libc", "libc++", "libcutils", "libdl", "libhidlbase", "liblog", "libm", "libutils", "vendor.dolby.hardware.dms@2.0", ],
 		},
 	},
 	compile_multilib: "both",
