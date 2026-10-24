@@ -105,12 +105,43 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
      * updateTuningDeviceIfNeeded().
      */
     private fun mirrorProfileToDaxService(profile: Int) {
+        val uri = Uri.parse("content://com.dolby.daxservice.dolbyprovider/3/profile/$profile")
         try {
-            val uri = Uri.parse("content://com.dolby.daxservice.dolbyprovider/3/profile/$profile")
+            // daxService needs exclusive control of the DAP effect to load a profile's
+            // tuning. While this app holds an instance it logs
+            //   waitForDolbyControl waiting Dolby recovers the control   (x10, ~1s)
+            //   setDolbyProfile() Dolby is not under control
+            // and gives up, so the profile never actually changes. Hand the effect
+            // over, let daxService do the work, then take it back.
+            releaseEffectForHandover()
             context.contentResolver.update(uri, ContentValues(), null, null)
             DolbyConstants.dlog(TAG, "Mirrored profile $profile to daxService")
         } catch (t: Throwable) {
             DolbyConstants.dlog(TAG, "daxService mirror failed for profile $profile: ${t.message}")
+        } finally {
+            reacquireEffect()
+        }
+    }
+
+    /** Drop this app's control of the DAP effect so daxService can take it. */
+    private fun releaseEffectForHandover() {
+        try {
+            if (!isReleased) dolbyEffect.release()
+        } catch (t: Throwable) {
+            DolbyConstants.dlog(TAG, "effect release failed: ${t.message}")
+        }
+        Thread.sleep(HANDOVER_SETTLE_MS)
+    }
+
+    /** A released AudioEffect cannot be reused, so build a fresh one. */
+    private fun reacquireEffect() {
+        try {
+            Thread.sleep(HANDOVER_SETTLE_MS)
+            dolbyEffect = createDolbyEffect()
+            dolbyEffect.dsOn = defaultPrefs.getBoolean(DolbyConstants.PREF_ENABLE, false)
+            DolbyConstants.dlog(TAG, "effect re-acquired after daxService handover")
+        } catch (t: Throwable) {
+            DolbyConstants.dlog(TAG, "effect reacquire failed: ${t.message}")
         }
     }
 
@@ -946,6 +977,9 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
     companion object {
         private const val TAG = "DolbyRepository"
         private const val EFFECT_PRIORITY = 100
+
+        /** Pause either side of the daxService handover so control really moves. */
+        private const val HANDOVER_SETTLE_MS = 150L
         
         private const val BASS_GAIN_MULTIPLIER = 1.4f
         private const val MID_GAIN_MULTIPLIER = 1.3f
