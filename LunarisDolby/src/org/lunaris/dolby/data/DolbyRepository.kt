@@ -127,8 +127,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
         if (enabled) {
             restoreSavedProfileIfNeeded()
         }
-        // DEBUG PROBE: remove before shipping
-        Thread { runCatching { dolbyEffect.probeProfileParams("savedState") } }.start()
     }
 
     private fun checkIsOnSpeaker(): Boolean {
@@ -191,8 +189,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
             }
             restoreProfilePreset(profile)
             _currentProfile.value = profile
-            // DEBUG PROBE: remove before shipping
-            Thread { runCatching { dolbyEffect.probeProfileParams("profile-$profile") } }.start()
             DolbyConstants.dlog(TAG, "Profile set to: $profile")
         } catch (e: Exception) {
             DolbyConstants.dlog(TAG, "Error setting current profile: ${e.message}")
