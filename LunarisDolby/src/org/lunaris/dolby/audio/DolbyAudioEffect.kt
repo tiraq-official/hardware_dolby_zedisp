@@ -6,6 +6,7 @@
 package org.lunaris.dolby.audio
 
 import android.media.audiofx.AudioEffect
+import android.util.Log
 import org.lunaris.dolby.DolbyConstants
 import org.lunaris.dolby.DolbyConstants.DsParam
 import java.util.UUID
@@ -83,8 +84,39 @@ class DolbyAudioEffect(priority: Int, audioSession: Int) : AudioEffect(
     fun getDapParameterInt(param: DsParam, profile: Int = this.profile): Int =
         getDapParameter(param, profile)[0]
 
+    /**
+     * DEBUG PROBE (read-only) - sweep integer parameter ids to locate the
+     * "active profile" selector this engine actually implements.
+     *
+     * Filter the log with:   adb logcat -s DolbyProbe
+     *
+     * Run it twice - once at the current profile, once after switching - and
+     * compare: the id whose value follows the profile index is the selector.
+     */
+    fun probeProfileParams(tag: String) {
+        val cur = try { getIntParam(EFFECT_PARAM_PROFILE) } catch (t: Throwable) { -1 }
+        Log.i(PROBE_TAG, "=== PROBE $tag begin (current profile=$cur) ===")
+        val ids = LinkedHashSet<Int>()
+        for (i in 1..200) ids.add(i)                 // low DAP parameter ids
+        for (i in 1..15) ids.add(i shl 24)           // 0x1000000 .. 0xF000000 (Sony-style opcodes)
+        for (i in 0..16) ids.add(0xA000000 + i)      // around Sony's EFFECT_PARAM_PROFILE
+        var ok = 0
+        var err = 0
+        for (id in ids) {
+            try {
+                val v = getIntParam(id)
+                ok++
+                Log.i(PROBE_TAG, "PROBE $tag id=0x${Integer.toHexString(id)} val=$v")
+            } catch (t: Throwable) {
+                err++
+            }
+        }
+        Log.i(PROBE_TAG, "=== PROBE $tag end (ok=$ok err=$err) ===")
+    }
+
     companion object {
         private const val TAG = "DolbyAudioEffect"
+        private const val PROBE_TAG = "DolbyProbe"
         private val EFFECT_TYPE_DAP = UUID.fromString("9d4921da-8225-4f29-aefa-39537a04bcaa")
 
         private const val EFFECT_PARAM_ENABLE = 0
