@@ -77,12 +77,15 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
 
     private fun restoreSavedProfileIfNeeded() {
         val savedProfile = readSavedProfile() ?: return
+        // Mirror FIRST: daxService must perform the change itself. Setting the
+        // effect profile first makes it see "same profile" and skip the whole
+        // sequence (tuning device + parameter load).
+        mirrorProfileToDaxService(savedProfile)
         if (dolbyEffect.profile != savedProfile) {
             dolbyEffect.profile = savedProfile
         }
         restoreProfilePreset(savedProfile)
         applyProfileSettings(savedProfile)
-        mirrorProfileToDaxService(savedProfile)
     }
 
     /**
@@ -92,6 +95,10 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
      * stack the per-profile TUNING is loaded by the DMS, and daxService is what
      * drives it (setSelectedTuningDevice). Without this the index changes but
      * every profile sounds identical.
+     *
+     * IMPORTANT: call this BEFORE setting the effect profile. daxService no-ops when
+     * the effect already reports the requested profile ("same profile, ignore"), and
+     * that skip also skips the tuning device selection and the parameter load.
      *
      * daxService's ContentProvider takes the profile as the last path segment of
      * .../3/profile/<n>; its update() then runs setDolbyProfile() +
@@ -207,6 +214,8 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
         
         try {
             checkEffect()
+            // Mirror FIRST so daxService performs the change (see helper).
+            mirrorProfileToDaxService(profile)
             dolbyEffect.profile = profile
             defaultPrefs.edit().putString(DolbyConstants.PREF_PROFILE, profile.toString()).apply()
             if (!verifyProfileSaved(profile)) {
@@ -215,7 +224,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
             restoreProfilePreset(profile)
             _currentProfile.value = profile
             DolbyConstants.dlog(TAG, "Profile set to: $profile")
-            mirrorProfileToDaxService(profile)
         } catch (e: Exception) {
             DolbyConstants.dlog(TAG, "Error setting current profile: ${e.message}")
         }
