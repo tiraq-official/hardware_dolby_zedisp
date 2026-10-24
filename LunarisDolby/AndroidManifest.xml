@@ -8,6 +8,8 @@
     package="org.lunaris.dolby"
     android:sharedUserId="android.uid.system">
 
+    <!-- needed to drive daxService (profile tuning lives in the DMS) -->
+    <uses-permission android:name="com.dolby.permission.DOLBY_UPDATE_BROADCAST" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />

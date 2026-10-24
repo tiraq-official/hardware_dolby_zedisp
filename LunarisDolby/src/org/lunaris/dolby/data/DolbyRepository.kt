@@ -9,7 +9,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.media.AudioAttributes
 import android.media.AudioDeviceInfo
+import android.content.ContentValues
 import android.media.AudioManager
+import android.net.Uri
 import org.lunaris.dolby.DolbyConstants
 import org.lunaris.dolby.DolbyConstants.DsParam
 import org.lunaris.dolby.R
@@ -80,6 +82,29 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
         }
         restoreProfilePreset(savedProfile)
         applyProfileSettings(savedProfile)
+        mirrorProfileToDaxService(savedProfile)
+    }
+
+    /**
+     * Mirror the profile into daxService.
+     *
+     * LunarisDolby sets the profile index on the audio effect, but in Motorola's
+     * stack the per-profile TUNING is loaded by the DMS, and daxService is what
+     * drives it (setSelectedTuningDevice). Without this the index changes but
+     * every profile sounds identical.
+     *
+     * daxService's ContentProvider takes the profile as the last path segment of
+     * .../3/profile/<n>; its update() then runs setDolbyProfile() +
+     * updateTuningDeviceIfNeeded().
+     */
+    private fun mirrorProfileToDaxService(profile: Int) {
+        try {
+            val uri = Uri.parse("content://com.dolby.daxservice.dolbyprovider/3/profile/$profile")
+            context.contentResolver.update(uri, ContentValues(), null, null)
+            DolbyConstants.dlog(TAG, "Mirrored profile $profile to daxService")
+        } catch (t: Throwable) {
+            DolbyConstants.dlog(TAG, "daxService mirror failed for profile $profile: ${t.message}")
+        }
     }
 
     private fun applyProfileSettings(profile: Int) {
@@ -190,6 +215,7 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
             restoreProfilePreset(profile)
             _currentProfile.value = profile
             DolbyConstants.dlog(TAG, "Profile set to: $profile")
+            mirrorProfileToDaxService(profile)
         } catch (e: Exception) {
             DolbyConstants.dlog(TAG, "Error setting current profile: ${e.message}")
         }

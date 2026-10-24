@@ -54,6 +54,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(DOLBY_PATH)/configs/permissions/privapp-permissions-dolby.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/privapp-permissions-dolby.xml
 
+# Dolby DAX service (Java layer over the DMS; owns profile tuning)
+PRODUCT_PACKAGES += \
+    daxService
+
+PRODUCT_COPY_FILES += \
+    $(DOLBY_PATH)/configs/permissions/com.dolby.daxservice.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/com.dolby.daxservice.xml
+
 
 
 
